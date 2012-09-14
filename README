@@ -1,0 +1,39 @@
+  Dynamic Reactive lighting 
+ 
+ This is controller software for LED Lights. It will be dynamic and react 
+ to the environment it's placed in, as well as being network-connected.
+ The lights will also increase the utility of lighting by responding to
+ the needs of the building occupants. It will do this using a variety
+ of sensors and APIs. The entire project will leverage and consist of
+ open source software and open hardware.
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ 
+ 
+ You must get the Adafruit-WS2801-Library below if you wish to drive WS2801 pixels.
+ Thank you Adafruit Industries! This would not have been possible without you!
+/*****************************************************************************
+ * Example sketch for driving Adafruit WS2801 pixels! -> https://github.com/adafruit/Adafruit-WS2801-Library
+ * 36mm Square shape ----> https://www.adafruit.com/products/683
+ * 
+ * Written by Limor Fried/Ladyada for Adafruit Industries.  
+ * BSD license, all text above must be included in any redistribution
+ * 
+ *****************************************************************************
+
+ You will need an arduino compatible microcontroller and the arduino software.
+ http://arduino.cc/en/Main/Software
+ 
+ Thank you Noisebridge hacker space!
