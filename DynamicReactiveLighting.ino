@@ -72,7 +72,7 @@ int pirLatch0 = 0;
 // Don't forget to connect the ground wire to Arduino ground,
 
 // Set the first variable to the NUMBER of pixels. 25 = 25 pixels in a row
-Adafruit_WS2801 strip = Adafruit_WS2801(60, dataPin, clockPin);
+Adafruit_WS2801 strip = Adafruit_WS2801(80, dataPin, clockPin);
 
 void setup() {
 
@@ -108,8 +108,44 @@ void loop() {
     setColor(Color(0,0,0));    
     break;
 
+  case '1': 
+    setColor(Color(185, 100, 41));    
+    break;
+
+  case '2': 
+    setColor(Color(255, 147, 41));    
+    break;
+
+  case '3': 
+    setColor(Color(255, 197, 143));    
+    break;
+
+  case '4': 
+    setColor(Color(255, 214, 170));    
+    break;
+
+  case '5': 
+    setColor(Color(255, 241, 224));    
+    break;
+
+  case '6': 
+    setColor(Color(255, 250, 244));    
+    break;
+
+  case '7': 
+    setColor(Color(255, 255, 255));    
+    break;
+
+  case '8': 
+    setColor(Color(201, 226, 255));    
+    break;
+
+  case '9': 
+    setColor(Color(64, 156, 255));    
+    break;
+
   case 'l': 
-    colorWipe(Color(64, 156, 255), 0);
+    colorWipe(Color(64, 156, 255), 2);
     break;
 
   case 's': 
