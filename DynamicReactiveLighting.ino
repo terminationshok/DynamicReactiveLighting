@@ -46,7 +46,7 @@
 
 int dataPin  = 2;    // Yellow wire on Adafruit Pixels
 int clockPin = 3;    // Green wire on Adafruit Pixels
-char defaultMode = 's';      //default mode for lights                           This is what your lights will do when powered on
+char defaultMode = 'd';      //default mode for lights                           This is what your lights will do when powered on
 int singlePir = 0;   //are you using a single motion sensor?                     Set to 1 if you are using the outdoor city lights
 char pirTriggeredMode = 'e';     //motion activated mode                         This mode will be activated as long as the pir pin is high
 
@@ -89,6 +89,7 @@ void setup() {
 
   pinMode(pirPin0, INPUT);
   Serial.begin(9600);
+
 }
 
 
@@ -107,7 +108,7 @@ void loop() {
   {
   case 'd': 
     // fadeColor(100,120,110,230,255,245,100);    
-    fadeColor(0,0,255,0,255,0,255);    
+    fadeColorGrid(0,0,255,0,255,0,255);    
     break;
 
   case 'x': 
@@ -170,6 +171,10 @@ void loop() {
   case '$': 
     setColor(Color(120, 45, 18));    
     break;
+
+  case 'g': 
+    rainbowGrid(50);
+    break; 
 
   case 'l': 
     colorWipe(Color(64, 156, 255), 2);
@@ -316,15 +321,15 @@ void fadeColor(int fR, int fG, int fB, int tR, int tG, int tB, int fadeTime){
   uint32_t tColor = Color(tR, tG, tB);
 
   if (fR != tR){
-    rITime = (tR - fR) / fadeTime;
+    rITime = (tR - fR) * fadeTime;
   }
 
   if (fG != tG){
-    gITime = (tG - fG) / fadeTime;
+    gITime = (tG - fG) * fadeTime;
   }
 
   if (fB != tB){
-    bITime = (tB - fB) / fadeTime;
+    bITime = (tB - fB) * fadeTime;
   }
 
   for (int fadeLoop=0; fadeLoop < fadeTime; fadeLoop++) {
@@ -336,6 +341,37 @@ void fadeColor(int fR, int fG, int fB, int tR, int tG, int tB, int fadeTime){
   setColor(tColor);
   holdColor=tColor;
   incomingString[0] = 'ü';  
+}
+
+void fadeColorGrid(int fR, int fG, int fB, int tR, int tG, int tB, int fadeTime){
+  float rITime = 0;
+  float gITime = 0;
+  float bITime = 0;
+  uint32_t tColor = Color(tR, tG, tB);
+  uint32_t gColor;
+
+  if (fR != tR){
+    rITime = (tR - fR) * fadeTime;
+  }
+
+  if (fG != tG){
+    gITime = (tG - fG) * fadeTime;
+  }
+
+  if (fB != tB){
+    bITime = (tB - fB) * fadeTime;
+  }
+
+  for (int fadeLoop=0; fadeLoop < fadeTime; fadeLoop++) {
+    fR = fR + rITime;
+    fG = fG + gITime;
+    fB = fB + bITime;
+    gColor = Color(fR, fG, fB);
+  }
+  for(int gridLoop = 2; gridLoop < 8; gridLoop++){
+    gridFade(gridLoop, gColor); 
+
+  }
 }
 
 
@@ -386,6 +422,19 @@ void rainbow(uint8_t wait) {
   for (j=0; j < 256; j++) {     // 3 cycles of all 256 colors in the wheel
     for (i=0; i < strip.numPixels(); i++) {
       strip.setPixelColor(i, Wheel( (i + j) % 255));
+    }  
+    strip.show();   // write all the pixels out
+    delay(wait);
+  }
+}
+
+void rainbowGrid(uint8_t wait) {
+  int i, j;
+
+  for (j=0; j < 256; j++) {     // 3 cycles of all 256 colors in the wheel
+    for (i=0; i < 7; i++) {
+      gridFade(i, Wheel( (i + j) % 255));
+      //      strip.setPixelColor(i, Wheel( (i + j) % 255));
     }  
     strip.show();   // write all the pixels out
     delay(wait);
@@ -547,6 +596,18 @@ int addrGrid(int x, int y)  {  //find sequential number in grid
   }  
 }
 
+void gridFade(int diagNum, uint32_t colorF){ 
+  for (int matrixXFade = 0; matrixXFade < 5; matrixXFade++){
+    for (int matrixYFade = 0; matrixYFade < 5; matrixYFade++){
+      if  (matrixXFade + matrixYFade == diagNum){
+        strip.setPixelColor(addrGrid(matrixXFade, matrixYFade), colorF);
+        strip.show();
+
+      } 
+    }  
+  }
+}
+
 /*
 void operateSwitch()  {
  buttonStatus0 = digitalRead(buttonPin0);      // read input value and store it in val
@@ -564,6 +625,11 @@ void operateSwitch()  {
  }
  }
  */
+
+
+
+
+
 
 
 
