@@ -46,8 +46,8 @@
 
 int dataPin  = 2;    // Yellow wire on Adafruit Pixels
 int clockPin = 3;    // Green wire on Adafruit Pixels
-char defaultMode = 's';      //default mode for lights                           This is what your lights will do when powered on
-int singlePir = 1;   //are you using a single motion sensor?                     Set to 1 if you are using the outdoor city lights
+char defaultMode = 'f';      //default mode for lights                           This is what your lights will do when powered on
+int singlePir = 0;   //are you using a single motion sensor?                     Set to 1 if you are using the outdoor city lights
 char pirTriggeredMode = 'e';     //motion activated mode                         This mode will be activated as long as the pir pin is high
 
 
@@ -72,7 +72,7 @@ int pirLatch0 = 0;
 // Don't forget to connect the ground wire to Arduino ground,
 
 // Set the first variable to the NUMBER of pixels. 25 = 25 pixels in a row
-Adafruit_WS2801 strip = Adafruit_WS2801(80, dataPin, clockPin);
+Adafruit_WS2801 strip = Adafruit_WS2801(16, dataPin, clockPin);
 
 void setup() {
 
@@ -104,6 +104,10 @@ void loop() {
   //switch to active state  --  All modes are defined here
   switch(incomingString[0])
   {
+  case 'd': 
+    fadeColor(100,120,110,230,255,245,35);    
+    break;
+
   case '0': 
     setColor(Color(0,0,0));    
     break;
@@ -142,6 +146,22 @@ void loop() {
 
   case '9': 
     setColor(Color(64, 156, 255));    
+    break;
+
+  case '!': 
+    setColor(Color(170, 85, 25));    
+    break;
+
+  case '@': 
+    setColor(Color(160, 65, 23));    
+    break;
+
+  case '#': 
+    setColor(Color(145, 50, 21));    
+    break;
+
+  case '$': 
+    setColor(Color(120, 45, 18));    
     break;
 
   case 'l': 
@@ -277,6 +297,40 @@ void pirOverride(){
     }
   }
 }
+
+
+void fadeColor(int fR, int fG, int fB, int tR, int tG, int tB, int fadeTime){
+  float rITime = 0;
+  float gITime = 0;
+  float bITime = 0;
+
+
+  if (fR != tR){
+    rITime = (tR - fR) / fadeTime;
+  }
+
+  if (fG != tG){
+    gITime = (tG - fG) / fadeTime;
+  }
+
+  if (fB != tB){
+    bITime = (tB - fB) / fadeTime;
+  }
+
+  for (int fadeLoop=0; fadeLoop < fadeTime; fadeLoop++) {
+    fR = fR + rITime;
+    fG = fG + gITime;
+    fB = fB + bITime;
+
+    setColor(Color(fR, fG, fB));
+  }
+
+  setColor(Color(tR, tG, tB));
+
+} 
+
+
+
 
 
 
@@ -505,3 +559,5 @@ void operateSwitch()  {
  }
  }
  */
+
+
