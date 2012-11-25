@@ -46,7 +46,7 @@
 
 int dataPin  = 2;    // Yellow wire on Adafruit Pixels
 int clockPin = 3;    // Green wire on Adafruit Pixels
-char defaultMode = 'f';      //default mode for lights                           This is what your lights will do when powered on
+char defaultMode = 's';      //default mode for lights                           This is what your lights will do when powered on
 int singlePir = 0;   //are you using a single motion sensor?                     Set to 1 if you are using the outdoor city lights
 char pirTriggeredMode = 'e';     //motion activated mode                         This mode will be activated as long as the pir pin is high
 
@@ -54,6 +54,7 @@ char pirTriggeredMode = 'e';     //motion activated mode                        
 int incomingByte = 0;
 char incomingString[10];
 int grpx = -1; //hyperWipe iterator
+uint32_t holdColor;
 
 /*
 //button
@@ -105,7 +106,13 @@ void loop() {
   switch(incomingString[0])
   {
   case 'd': 
-    fadeColor(100,120,110,230,255,245,35);    
+    // fadeColor(100,120,110,230,255,245,100);    
+    fadeColor(0,0,255,0,255,0,255);    
+    break;
+
+  case 'x': 
+    // fadeColor(100,120,110,230,255,245,100);    
+    fadeColor(0,255,0,0,0,255,255);    
     break;
 
   case '0': 
@@ -216,6 +223,9 @@ void loop() {
     redBlink();
     break; 
 
+  case 'ü':
+    setColor(holdColor);
+    break;
   }
 
 
@@ -303,7 +313,7 @@ void fadeColor(int fR, int fG, int fB, int tR, int tG, int tB, int fadeTime){
   float rITime = 0;
   float gITime = 0;
   float bITime = 0;
-
+  uint32_t tColor = Color(tR, tG, tB);
 
   if (fR != tR){
     rITime = (tR - fR) / fadeTime;
@@ -321,17 +331,12 @@ void fadeColor(int fR, int fG, int fB, int tR, int tG, int tB, int fadeTime){
     fR = fR + rITime;
     fG = fG + gITime;
     fB = fB + bITime;
-
     setColor(Color(fR, fG, fB));
   }
-
-  setColor(Color(tR, tG, tB));
-
-} 
-
-
-
-
+  setColor(tColor);
+  holdColor=tColor;
+  incomingString[0] = 'ü';  
+}
 
 
 void breatheHyperWipe(uint8_t brc ,uint8_t wic) {
@@ -559,5 +564,8 @@ void operateSwitch()  {
  }
  }
  */
+
+
+
 
 
