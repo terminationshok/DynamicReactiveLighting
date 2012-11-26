@@ -46,7 +46,7 @@
 
 int dataPin  = 2;    // Yellow wire on Adafruit Pixels
 int clockPin = 3;    // Green wire on Adafruit Pixels
-char defaultMode = 'd';      //default mode for lights                           This is what your lights will do when powered on
+char defaultMode = 'r';      //default mode for lights                           This is what your lights will do when powered on
 int singlePir = 0;   //are you using a single motion sensor?                     Set to 1 if you are using the outdoor city lights
 char pirTriggeredMode = 'e';     //motion activated mode                         This mode will be activated as long as the pir pin is high
 
@@ -514,6 +514,17 @@ uint32_t Color(byte r, byte g, byte b)
   c |= b;
   return c;
 }
+
+//return r,g, or b from Color
+int getRedFromColor(uint32_t c)
+{ return ((c>>8)&0xff); }
+
+int getGreenFromColor(uint32_t c)
+{ return (c&0xff); }
+
+int getBlueFromColor(uint32_t c)
+{ return ((c>>16)&0xff); }
+
 
 //Input a value 0 to 255 to get a color value.
 //The colours are a transition r - g -b - back to r
